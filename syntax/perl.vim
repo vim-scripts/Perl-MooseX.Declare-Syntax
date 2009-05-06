@@ -34,8 +34,8 @@
 
 " *** MOOSE STUFF ***
 
-" Moose keywords
-syn match perlStatementProc		"\<\%(blessed\|confess\|class_has\|has\|inner\|is\|mutable\|super\)\>"
+" Moose (and some other common) functions
+syn match perlStatementProc		"\<\%(blessed\|reftype\|confess\|carp\|croak\|class_has\|has\|inner\|is\|mutable\|super\)\>"
 
 " Moose typelib stuff
 syn match perlStatementProc		"\<\%(subtype\|coerce\|as\|from\|via\|message\|enum\|class_type\|role_type\|maybe_type\|duck_type\|optimize_as\|type\|where\)\>"
