@@ -20,10 +20,10 @@
 " The following parameters are available for tuning the
 " perl syntax highlighting, with defaults given:
 "
-" unlet perl_include_pod
+" let perl_include_pod=1
 " unlet perl_no_scope_in_variables
 " unlet perl_no_extended_vars
-" unlet perl_string_as_statement
+" let perl_string_as_statement=1
 " unlet perl_no_sync_on_sub
 " unlet perl_no_sync_on_global_var
 " let perl_sync_dist = 100
@@ -33,12 +33,28 @@
 " let perl_nofold_subs = 1
 
 " *** MOOSE STUFF ***
+" TODO:
+" fix $foo->Bar->baz(23)->dongs highlighting
+" make the -> for method calls a different color
+" make methods a different color than variables
+
+" set some nice defaults people usually don't set, unless overridden
+if !exists("perl_include_pod")
+  let perl_include_pod=1
+endif
+if !exists("perl_string_as_statement")
+  let perl_string_as_statement=1
+endif
 
 " Moose (and some other common) functions
 syn match perlStatementProc		"\<\%(blessed\|reftype\|confess\|carp\|croak\|class_has\|has\|inner\|is\|mutable\|super\)\>"
 
 " Moose typelib stuff
 syn match perlStatementProc		"\<\%(subtype\|coerce\|as\|from\|via\|message\|enum\|class_type\|role_type\|maybe_type\|duck_type\|optimize_as\|type\|where\)\>"
+
+" Test::More, Test::Moose and Test::Exception stuff (except for "is", which is
+" already highlighted.)
+syn match perlStatementProc             "\<\%(plan\|use_ok\|require_ok\|ok\|isnt\|diag\|like\|unlike\|cmp_ok\|is_deeply\|skip\|can_ok\|isa_ok\|pass\|fail\|BAIL_OUT\|meta_ok\|does_ok\|has_attribute_ok\|throws_ok\|dies_ok\|lives_ok\|lives_and\)\>"
 
 syn match perlMethodName +\%(\h\|::\|['"]\)\%(\w\|::\)\+["']\?\_s*\|+ contained nextgroup=perlPossibleComma
 
@@ -82,7 +98,7 @@ endif
 
 " POD starts with ^=<word> and ends with ^=cut
 
-if exists("perl_include_pod")
+if perl_include_pod
   " Include a while extra syntax file
   syn include @Pod syntax/pod.vim
   unlet b:current_syntax
@@ -484,7 +500,7 @@ HiLink perlSubAttributes	PreProc
 HiLink perlSubAttributesCont	perlSubAttributes
 HiLink perlComment		Comment
 HiLink perlTodo			Todo
-if exists("perl_string_as_statement")
+if perl_string_as_statement
   HiLink perlStringStartEnd	perlStatement
 else
   HiLink perlStringStartEnd	perlString
