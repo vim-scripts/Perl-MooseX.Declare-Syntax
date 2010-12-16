@@ -2,8 +2,8 @@
 "
 " Language:     Perl with MooseX::Declare and Moose keywords
 " Maintainer:   Rafael Kitover <rkitover@cpan.org>
-" Last Change:  2010-07-25
-" Contributors: Denis Pokataev
+" Last Change:  2010-11-03
+" Contributors: Denis Pokataev, Oleg Kostyuk
 "
 " ORIGINAL VERSION:
 "
@@ -46,8 +46,8 @@ if !exists("perl_string_as_statement")
   let perl_string_as_statement=1
 endif
 
-" Moose (and some other common) functions
-syn match perlStatementProc		"\<\%(blessed\|reftype\|confess\|carp\|croak\|class_has\|has\|inner\|is\|mutable\|immutable\|immutable\|super\|requires\)\>"
+" Moose, HTML::FormHandler and some other common functions
+syn match perlStatementProc		"\<\%(blessed\|reftype\|confess\|carp\|croak\|class_has\|has\|has_field\|inner\|is\|mutable\|immutable\|immutable\|super\|requires\)\>"
 
 " Moose typelib stuff
 syn match perlStatementProc		"\<\%(subtype\|coerce\|as\|from\|via\|message\|enum\|class_type\|role_type\|maybe_type\|duck_type\|optimize_as\|type\|where\)\>"
@@ -129,7 +129,7 @@ syn region  perlGenericBlock	matchgroup=perlGenericBlock start="{" end="}" conta
 
 " All keywords
 "
-syn match perlConditional		"\<\%(if\|elsif\|unless\|given\|when\|default\)\>"
+syn match perlConditional		"\<\%(if\|elsif\|unless\|given\|when\|default\|switch\|case\)\>"
 syn match perlConditional		"\<else\>" nextgroup=perlElseIfError skipwhite skipnl skipempty
 syn match perlRepeat			"\<\%(while\|for\%(each\)\=\|do\|until\|continue\)\>"
 syn match perlOperator			"\<\%(defined\|undef\|eq\|ne\|[gl][et]\|cmp\|not\|and\|or\|xor\|not\|bless\|ref\|do\)\>"
