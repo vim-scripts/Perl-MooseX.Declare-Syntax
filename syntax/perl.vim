@@ -2,7 +2,7 @@
 "
 " Language:     Perl with MooseX::Declare and Moose keywords
 " Maintainer:   Rafael Kitover <rkitover@cpan.org>
-" Last Change:  2011-01-03
+" Last Change:  2011-01-19
 " Contributors: Denis Pokataev, Oleg Kostyuk
 "
 " ORIGINAL VERSION:
@@ -47,14 +47,21 @@ if !exists("perl_string_as_statement")
 endif
 
 " Moose, HTML::FormHandler and some other common functions
-syn match perlStatementProc		"\<\%(blessed\|reftype\|confess\|carp\|croak\|class_has\|has\|has_field\|inner\|is\|mutable\|immutable\|immutable\|super\|requires\)\>"
+syn match perlStatementProc		"\<\%(blessed\|reftype\|confess\|carp\|croak\|class_has\|has\|has_field\|inner\|is\|mutable\|immutable\|super\|requires\)\>"
 
 " Moose typelib stuff
 syn match perlStatementProc		"\<\%(subtype\|coerce\|as\|from\|via\|message\|enum\|class_type\|role_type\|maybe_type\|duck_type\|optimize_as\|type\|where\)\>"
 
 " Test::More, Test::Moose and Test::Exception stuff (except for "is", which is
 " already highlighted.)
-syn match perlStatementProc             "\<\%(plan\|use_ok\|require_ok\|ok\|isnt\|diag\|like\|unlike\|cmp_ok\|is_deeply\|skip\|can_ok\|isa_ok\|pass\|fail\|BAIL_OUT\|meta_ok\|does_ok\|has_attribute_ok\|throws_ok\|dies_ok\|lives_ok\|lives_and\)\>"
+syn match perlStatementProc             "\<\%(plan\|use_ok\|require_ok\|ok\|isnt\|diag\|note\|explain\|like\|unlike\|cmp_ok\|is_deeply\|skip\|can_ok\|isa_ok\|new_ok\|pass\|fail\|skip\|todo_skip\|done_testing\|BAIL_OUT\|meta_ok\|does_ok\|has_attribute_ok\|throws_ok\|dies_ok\|lives_ok\|lives_and\|subtest\)\>"
+
+" Test::Differences
+syn match perlStatementProc             "\<\%(eq_or_diff\|eq_or_diff_data\|eq_or_diff_text\|table_diff\|unified_diff\|oldstyle_diff\|context_diff\)\>"
+
+" Test::*, all functions like all_perl_files_ok/all_pod_coverage_ok/etc
+" may be, will be better something like: \<\%(all_[a-z_]\+_ok\)\>
+syn match perlStatementProc             "\<\%(all_perl_files_ok\|all_critic_ok\|all_pod_coverage_ok\|all_pod_files_spelling_ok\|all_pod_files_ok\|all_cover_ok\)\>"
 
 " Try::Tiny
 syn match perlStatementProc		"\<\%(try\|catch\|finally\)\>"
