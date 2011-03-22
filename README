@@ -1,9 +1,5 @@
 This is a mirror of http://www.vim.org/scripts/script.php?script_id=2526
 
-hacked up mauke's perl syntax for Moose and MooseX::Declare keywords
-
-The original is here:
-
-http://www.vim.org/scripts/script.php?script_id=2300
+This is now a fork of alester's vim-perl at http://github.com/petdance/vim-perl
 
 On GitHub: http://github.com/rkitover/perl-vim-mxd
