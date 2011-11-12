@@ -1,13 +1,12 @@
 " Vim syntax file
 " Language:      Perl 5 with MooseX::Declare and Moose keywords
 " Version:       0.16
-" Maintainer:    Andy Lester <andy@petdance.com>,
-"                Rafael Kitover <rkitover@cpan.org>,
-"                Oleg Kostyuk <cub@cpan.org>
+" Maintainer:    Rafael Kitover <rkitover@cpan.org>
 " Homepage:      https://github.com/rkitover/perl-vim-mxd
 " Bugs/requests: https://github.com/rkitover/perl-vim-mxd/issues
 " Last Change:   2011-04-21
 " Contributors:  Andy Lester <andy@petdance.com>
+"                Oleg Kostyuk <cub@cpan.org>
 "                Hinrik Örn Sigurðsson <hinrik.sig@gmail.com>
 "                Lukas Mai <l.mai.web.de>
 "                Nick Hibma <nick@van-laarhoven.org>
@@ -63,10 +62,13 @@ if perl_moose_stuff
   "   make methods a different color than variables
 
   " Moose, HTML::FormHandler and some other common functions
-  syn match perlStatementProc             "\<\%(blessed\|reftype\|confess\|carp\|croak\|class_has\|has\|has_field\|inner\|is\|mutable\|immutable\|super\|requires\)\>"
+  syn match perlStatementProc             "\<\%(carp\|class_has\|croak\|has_field\|immutable\|is\|mutable\|reftype\|requires\)\>"
 
-  " Moose typelib stuff
-  syn match perlStatementProc             "\<\%(subtype\|coerce\|as\|from\|via\|message\|enum\|class_type\|role_type\|maybe_type\|duck_type\|optimize_as\|type\|where\)\>"
+  " Moose Keywords
+  syn match perlStatementProc             "\<\%(extends\|with\|has\|before\|after\|around\|super\|override\|inner\|augment\|confess\|blessed\)\>"
+
+  " Moose::Util::TypeConstraints Keywords
+  syn match perlStatementProc             "\<\%(type\|subtype\|class_type\|role_type\|maybe_type\|duck_type\|as\|where\|message\|optimize_as\|inline_as\|coerce\|from\|via\|enum\|find_type_constraint\|register_type_constraint\)\>"
 
   " Test::More, Test::Moose and Test::Exception stuff (except for "is", which is already highlighted.)
   syn match perlStatementProc             "\<\%(plan\|use_ok\|require_ok\|ok\|isnt\|diag\|note\|explain\|like\|unlike\|cmp_ok\|is_deeply\|skip\|can_ok\|isa_ok\|new_ok\|pass\|fail\|skip\|todo_skip\|done_testing\|BAIL_OUT\|meta_ok\|does_ok\|has_attribute_ok\|throws_ok\|dies_ok\|lives_ok\|lives_and\|subtest\)\>"
@@ -176,7 +178,7 @@ syn match perlStatementMisc		"\<\%(warn\|formline\|reset\|scalar\|prototype\|loc
 
 syn keyword perlTodo			TODO TBD FIXME XXX NOTE contained
 
-syn region perlStatementIndirObjWrap	matchgroup=perlStatementIndirObj start="\<\%(map\|grep\|sort\|print\|system\|exec\)\>\s*{" end="}" contains=@perlTop,perlGenericBlock
+syn region perlStatementIndirObjWrap   matchgroup=perlStatementIndirObj start="\<\%(map\|grep\|sort\|printf\=\|say\|system\|exec\)\>\s*{" end="}" contains=@perlTop,perlGenericBlock
 
 syn match perlLabel      "^\s*\h\w*\s*::\@!\%(\<v\d\+\s*:\)\@<!"
 
@@ -493,7 +495,11 @@ if exists("perl_fold")
   syn sync fromstart
 else
   " fromstart above seems to set minlines even if perl_fold is not set.
-  syn sync minlines=0
+  if line('$') <= 5000
+    syn sync fromstart
+  else
+    syn sync minlines=0
+  endif
 endif
 
 command -nargs=+ HiLink hi def link <args>
