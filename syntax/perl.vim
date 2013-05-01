@@ -1,10 +1,10 @@
 " Vim syntax file
 " Language:      Perl 5 with MooseX::Declare and Moose keywords
-" Version:       0.16
+" Version:       0.19
 " Maintainer:    Rafael Kitover <rkitover@cpan.org>
 " Homepage:      https://github.com/rkitover/perl-vim-mxd
 " Bugs/requests: https://github.com/rkitover/perl-vim-mxd/issues
-" Last Change:   2011-04-21
+" Last Change:   2013-05-01
 " Contributors:  Andy Lester <andy@petdance.com>
 "                Oleg Kostyuk <cub@cpan.org>
 "                Hinrik Örn Sigurðsson <hinrik.sig@gmail.com>
@@ -33,6 +33,7 @@
 " unlet perl_fold_blocks
 " let perl_nofold_packages = 1
 " let perl_nofold_subs = 1
+" unlet perl_fold_anonymous_subs
 
 
 
@@ -83,8 +84,8 @@ if perl_moose_stuff
   " may be, will be better something like: \<\%(all_[a-z_]\+_ok\)\>
   syn match perlStatementProc             "\<\%(all_perl_files_ok\|all_critic_ok\|all_pod_coverage_ok\|all_pod_files_spelling_ok\|all_pod_files_ok\|all_cover_ok\)\>"
 
-  " Try::Tiny
-  syn match perlStatementProc             "\<\%(try\|catch\|finally\)\>"
+  " Try::Tiny and Error/Error::Simple
+  syn match perlStatementProc             "\<\%(try\|throw\|catch\|except\|otherwise\|finally\)\>"
 
   " Switch.pm
   syn match perlConditional               "\<\%(switch\|case\)\>"
@@ -179,7 +180,7 @@ syn match perlStatementTime		"\<\%(gmtime\|localtime\|time\)\>"
 
 syn match perlStatementMisc		"\<\%(warn\|formline\|reset\|scalar\|prototype\|lock\|tied\=\|untie\)\>"
 
-syn keyword perlTodo			TODO TBD FIXME XXX NOTE contained
+syn keyword perlTodo			TODO TODO: TBD TBD: FIXME FIXME: XXX XXX: NOTE NOTE: contained
 
 syn region perlStatementIndirObjWrap   matchgroup=perlStatementIndirObj start="\<\%(map\|grep\|sort\|printf\=\|say\|system\|exec\)\>\s*{" end="}" contains=@perlTop,perlGenericBlock
 
@@ -485,8 +486,13 @@ if exists("perl_fold")
     syn region perlPackageFold start="^package \S\+;\s*\%(#.*\)\=$" end="^1;\=\s*\%(#.*\)\=$" end="\n\+package"me=s-1 transparent fold keepend
   endif
   if !exists("perl_nofold_subs")
-    syn region perlSubFold     start="^\z(\s*\)\<sub\>.*[^};]$" end="^\z1}\s*\%(#.*\)\=$" transparent fold keepend
-    syn region perlSubFold start="^\z(\s*\)\<\%(BEGIN\|END\|CHECK\|INIT\|UNITCHECK\)\>.*[^};]$" end="^\z1}\s*$" transparent fold keepend
+    if exists("perl_fold_anonymous_subs") && perl_fold_anonymous_subs
+      syn region perlSubFold     start="^\z(\s*\).*\<sub\>.*[^};]$" end="^\z1}" transparent fold keepend
+      syn region perlSubFold start="^\z(\s*\)\<\(BEGIN\|END\|CHECK\|INIT\)\>.*[^};]$" end="^\z1}" transparent fold keepend
+    else
+      syn region perlSubFold     start="^\z(\s*\)\<sub\>.*[^};]$" end="^\z1}\s*\%(#.*\)\=$" transparent fold keepend
+      syn region perlSubFold start="^\z(\s*\)\<\%(BEGIN\|END\|CHECK\|INIT\|UNITCHECK\)\>.*[^};]$" end="^\z1}\s*$" transparent fold keepend
+    endif
   endif
 
   if exists("perl_fold_blocks")
